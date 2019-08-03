@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 class Login {
     private static User newUser;
-    private static Scanner input = new Scanner(System.in);
+    private static final Scanner input = new Scanner(System.in);
 
     void run(){
 
