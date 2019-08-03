@@ -1,13 +1,17 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 
 class Login {
     private static User newUser;
     private static final Scanner input = new Scanner(System.in);
+    private mySql_DB database = new mySql_DB();
 
-    void run(){
+    void run() throws SQLException {
+
+        database.connect();
 
         System.out.println("Hello World");
-        System.out.println("Enter 1 to Login, 2 to create New User, or 3 to Delete User");
+        System.out.println("Enter 1 to Login, 2 to create New User, 3 to exit");
 
         int selection = input.nextInt();
         input.nextLine();
@@ -25,10 +29,15 @@ class Login {
         else if (selection == 2){
             createUser();
         }
-        System.out.println(newUser.getPassword() + " " + newUser.getUserName());
+
+        else if (selection == 3){
+            database.close_DB();
+            System.exit(0);
+        }
+        //System.out.println(newUser.getPassword() + " " + newUser.getUserName());
     }
 
-    private void createUser() {
+    private void createUser() throws SQLException {
         System.out.println("Enter desired UserName:");
         String name = input.nextLine();
 
@@ -38,7 +47,8 @@ class Login {
         String pass2 = input.nextLine();
 
         if (checkPass(pass, pass2)) {
-           newUser = new User(name, pass);
+           //newUser = new User(name, pass);
+            database.addUser(name, pass);
         }
         else{
             System.out.println("Passwords do not match, try again.");
